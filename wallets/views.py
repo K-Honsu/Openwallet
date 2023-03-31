@@ -72,6 +72,8 @@ class WalletDetailView(APIView):
     def post(self, request, pk, format=None):
         wallet = self.get_object(pk)
         amount = Decimal(request.data.get('amount', 0))
+        if amount <= 0:
+            return Response({'error': 'Invalid amount'}, status=status.HTTP_400_BAD_REQUEST)
         wallet.amount += amount
         wallet.save()
         transaction = Transaction.objects.create(
@@ -117,6 +119,8 @@ class WalletWithdrawView(APIView):
     def post(self, request, pk, format=None):
         wallet = self.get_object(pk)
         amount = Decimal(request.data.get('amount', 0))
+        if amount <= 0:
+            return Response({'error': 'Invalid amount'}, status=status.HTTP_400_BAD_REQUEST)
         wallet.amount -= amount
         wallet.save()
         transaction = Transaction.objects.create(

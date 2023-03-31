@@ -42,3 +42,7 @@ Quit the server with CONTROL-C.
 - Open a web browser and navigate to the URL that was displayed in the output. You should see the Django project running on your local machine.
 
 - Congratulations, you have now successfully run a Django Python backend on the local server!
+
+## Documentation <hr>
+
+- Documentation on how to test all api's on posted is hosted here <a href="https://documenter.getpostman.com/view/25856069/2s93RUtrYg#ac2502c7-9621-40a2-a3f7-73b128f21c60">Click Here</a>
