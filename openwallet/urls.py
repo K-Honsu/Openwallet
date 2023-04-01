@@ -7,7 +7,7 @@ schema_view = swagger_get_schema_view(
     openapi.Info(
         title="OpenWallet Api",
         default_version="1.0.0",
-        description="API DOCUMENTATION OF APP"
+        description="API DOCUMENTATION OF OPENWALLET",
     ),
     public=True
 )
@@ -22,5 +22,4 @@ urlpatterns = [
         path('docs/', schema_view.with_ui('swagger',
              cache_timeout=0), name='swagger-schema')
     ])),
-
 ]
