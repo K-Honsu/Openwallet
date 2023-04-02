@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from .serializers import WalletSerializer, TransactionSerializer
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.template.loader import get_template
 from django.http import HttpResponse
 from xhtml2pdf import pisa
@@ -24,7 +24,7 @@ class ListAllWallets(ListAPIView):
 class CreateViewWallet(ListCreateAPIView):
     queryset = Wallets.objects.all()
     serializer_class = WalletSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Wallets.objects.filter(user_id=self.request.user.id)
@@ -48,7 +48,7 @@ class CreateViewWallet(ListCreateAPIView):
 class WalletDetail(RetrieveUpdateDestroyAPIView):
     queryset = Wallets.objects.all()
     serializer_class = WalletSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, pk):
         wallet = get_object_or_404(Wallets, pk=pk)
@@ -57,6 +57,8 @@ class WalletDetail(RetrieveUpdateDestroyAPIView):
 
 
 class WalletDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         try:
             return Wallets.objects.get(pk=pk)
