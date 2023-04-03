@@ -85,6 +85,8 @@ class WalletDetailView(APIView):
 
 
 class RetreivesAllDepositInfoForSpecificWallet(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk, format=None):
         wallet = Wallets.objects.get(pk=pk)
         transactions = wallet.transactions.filter(transaction_type='deposit')
@@ -93,6 +95,8 @@ class RetreivesAllDepositInfoForSpecificWallet(APIView):
 
 
 class RetreiveInfoOnDeposit(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, wallet_id, deposit_id):
         try:
             return Transaction.objects.get(wallet__id=wallet_id, id=deposit_id, transaction_type='deposit')
@@ -106,6 +110,8 @@ class RetreiveInfoOnDeposit(APIView):
 
 
 class WalletWithdrawView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         try:
             return Wallets.objects.get(pk=pk)
@@ -132,6 +138,8 @@ class WalletWithdrawView(APIView):
 
 
 class RetreivesAllWithdrawalInfoForSpecificWallet(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk, format=None):
         wallet = Wallets.objects.get(pk=pk)
         transactions = wallet.transactions.filter(
@@ -141,6 +149,8 @@ class RetreivesAllWithdrawalInfoForSpecificWallet(APIView):
 
 
 class RetreiveInfoOnWithdrawal(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, wallet_id, withdrawal_id):
         try:
             return Transaction.objects.get(wallet__id=wallet_id, id=withdrawal_id, transaction_type='withdrawal')
@@ -154,6 +164,8 @@ class RetreiveInfoOnWithdrawal(APIView):
 
 
 class TransferView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, pk, format=None):
         source_wallet = Wallets.objects.get(pk=pk)
         destination_wallet_id = request.data.get('destination_wallet_id')
@@ -202,6 +214,8 @@ class TransferView(APIView):
 
 
 class RetreivesAllTransferInfoForSpecificWallet(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk, format=None):
         wallet = Wallets.objects.get(pk=pk)
         transactions = wallet.transactions.filter(
@@ -224,6 +238,8 @@ class RetreiveInfoOnTransfer(APIView):
 
 
 class TransactionListView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk):
         wallet = get_object_or_404(Wallets, pk=pk)
         transactions = wallet.transactions.all()
@@ -236,6 +252,10 @@ class TransactionListView(APIView):
         amount = Decimal(request.data.get('amount', 0))
 
         # Perform validation, e.g. ensure the transaction type is valid,
+        if not transaction:
+            return Response({'error': 'Invalid transaction type'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            transaction_type = transaction[0]
         # the amount is positive, etc.
         # ...
 
@@ -268,6 +288,8 @@ class TransactionListView(APIView):
 
 
 class TransactionPDFView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk):
         wallet = Wallets.objects.get(pk=pk)
         transactions = Transaction.objects.filter(wallet=wallet)
