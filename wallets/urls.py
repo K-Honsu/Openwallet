@@ -5,7 +5,6 @@ urlpatterns = [
     path('view_all_wallets/', views.ListAllWallets.as_view()),
     path('create_wallet/', views.CreateViewWallet.as_view()),
     path('single_wallet/<int:pk>/', views.WalletDetail.as_view()),
-    # path('wallet/<int:pk>/deposit/', views.WalletDepositView.as_view()),
     path('wallet/<int:pk>/deposit/', views.WalletDetailView.as_view()),
     path('wallets/<int:pk>/deposit/',
          views.RetreivesAllDepositInfoForSpecificWallet.as_view()),
