@@ -1,0 +1,26 @@
+version: "3"
+services:
+  django:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
+    # ...
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: OpenWallet
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - mynetwork
+volumes:
+  postgres_data:
+networks:
+  mynetwork:
+    driver: bridge
