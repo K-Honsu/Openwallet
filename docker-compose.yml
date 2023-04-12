@@ -1,26 +1,74 @@
-version: "3"
+version: "3.9"
+
 services:
-  django:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+  web:
     build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
-    networks:
-      - mynetwork
-    # ...
-  postgres:
-    image: postgres
-    environment:
-      POSTGRES_DB: OpenWallet
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    networks:
-      - mynetwork
-volumes:
-  postgres_data:
-networks:
-  mynetwork:
-    driver: bridge
+      - db
+# version: "3.9"
+
+# services:
+#   db:
+#     image: postgres:13
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     env_file:
+#       - .env
+#     environment:
+#       - POSTGRES_USER=${POSTGRES_USER}
+#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#       - POSTGRES_DB=${POSTGRES_DB}
+#     ports:
+#       - "5432:5432"
+# version: "3.9"
+
+# services:
+#   image: postgres:13
+#   volumes:
+#     - .:/code
+#   env_file:
+#     - .env
+#   environment:
+#     - POSTGRES_USER=${POSTGRES_USER}
+#     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#     - POSTGRES_DB=${POSTGRES_DB}
+#   ports:
+#     - "5432:5432"
+# version: "3"
+# services:
+#   django:
+#     build: .
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - postgres
+#     networks:
+#       - mynetwork
+#     # ...
+#   postgres:
+#     image: postgres
+#     environment:
+#       POSTGRES_DB: ${POSTGRES_DB}
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data/
+#     networks:
+#       - mynetwork
+# volumes:
+#   postgres_data:
+# networks:
+#   mynetwork:
+#     driver: bridge
