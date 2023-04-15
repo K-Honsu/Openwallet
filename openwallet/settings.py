@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'openwallet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Openwallet',
+        'NAME': 'OpenWallet',
         'USER': 'postgres',
         'PASSWORD': config('SECRET_KEY_PGADMIN'),
         'HOST': 'db',

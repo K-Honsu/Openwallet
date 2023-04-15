@@ -4,7 +4,7 @@ User = get_user_model()
 
 
 class Wallets(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(User, on_delete=models.CASCADE)
     currency = models.CharField(max_length=25, null=True, blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=100)
 
